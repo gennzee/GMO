@@ -13,11 +13,13 @@ import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.xa.GMO;
 
 import entities.Player;
+import hud.TouchPad;
 import maps.AnimationTiledObject;
 import maps.B2WorldCreator;
 
@@ -27,6 +29,7 @@ public class PlayScreen implements Screen {
 
     public GMO game;
     private String map;
+    public Stage stage;
 
     private OrthographicCamera camera;
     private Viewport viewport;
@@ -38,6 +41,7 @@ public class PlayScreen implements Screen {
     private TiledMap tiledMap;
 
     private Player player;
+    private TouchPad touchPad;
 
     public PlayScreen(GMO game, String map){
         this.game = game;
@@ -46,6 +50,7 @@ public class PlayScreen implements Screen {
 
     @Override
     public void show() {
+        stage = new Stage(new FitViewport(V_WIDTH, V_HEIGHT, new OrthographicCamera()), game.batch);
         camera = new OrthographicCamera();
         viewport = new FitViewport(V_WIDTH / 3f / PPM, V_HEIGHT / 3f / PPM, camera);
         viewport.apply();
@@ -59,6 +64,8 @@ public class PlayScreen implements Screen {
         new AnimationTiledObject(tiledMap);
 
         player = new Player(this, world, 20, 26);
+
+        touchPad = new TouchPad(this);
     }
 
     @Override
@@ -76,6 +83,9 @@ public class PlayScreen implements Screen {
         game.batch.begin();
         player.render(game.batch, delta);
         game.batch.end();
+
+        stage.act(delta);
+        stage.draw();
     }
 
     public void update(float dt){
@@ -96,6 +106,7 @@ public class PlayScreen implements Screen {
     @Override
     public void resize(int width, int height) {
         viewport.update(width, height);
+        stage.getViewport().update(width, height);
     }
 
     @Override

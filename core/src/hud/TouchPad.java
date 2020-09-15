@@ -33,6 +33,12 @@ public class TouchPad implements Disposable {
 
     public TouchPad(PlayScreen game){
         this.game = game;
+        createTouchPad();
+        createActionButtons();
+        Gdx.input.setInputProcessor(game.stage);
+    }
+
+    public void createTouchPad(){
         //Create a touchpad skin
         touchpadSkin = new Skin();
         //Set background image
@@ -53,24 +59,27 @@ public class TouchPad implements Disposable {
         touchpad.setBounds(70, 70, 300, 300);
         //Create a Stage and add TouchPad
         game.stage.addActor(touchpad);
+    }
 
+    public void createActionButtons(){
         textureAtlas = ResourceManager.textureAtlas;
         buttonSkin = new Skin(textureAtlas);
         bitmapFont = ResourceManager.bitmapFont;
+
         TextButton.TextButtonStyle textButtonStyle = new TextButton.TextButtonStyle();
         textButtonStyle.up = buttonSkin.getDrawable("touchPad/buttonUp");
         textButtonStyle.down = buttonSkin.getDrawable("touchPad/buttonDown");
         textButtonStyle.pressedOffsetX = 1;
         textButtonStyle.pressedOffsetY = -1;
         textButtonStyle.font = bitmapFont;
+
         jumpButton = new TextButton("Jump", textButtonStyle);
         jumpButton.setBounds(V_WIDTH - 400, 70, 200, 200);
         game.stage.addActor(jumpButton);
+
         attackButton = new TextButton("Attack", textButtonStyle);
         attackButton.setBounds(V_WIDTH - 200, 70, 200, 200);
         game.stage.addActor(attackButton);
-
-        Gdx.input.setInputProcessor(game.stage);
     }
 
     @Override

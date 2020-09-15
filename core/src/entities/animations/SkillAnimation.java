@@ -14,7 +14,7 @@ public class SkillAnimation extends entities.animations.Animation{
     public SkillAnimation(Player player){
         super();
         this.player = player;
-        this.skillAni_1 = createAnimation(ResourceManager.playerSkillAttackFrames, 1, 4, 1/8f);
+        this.skillAni_1 = createAnimation(ResourceManager.playerSkillAttackFrames, 1, 4, 1/4f);
     }
 
     @Override

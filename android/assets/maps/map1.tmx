@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.4" tiledversion="1.4.2" orientation="orthogonal" renderorder="right-down" width="30" height="10" tilewidth="32" tileheight="32" infinite="0" nextlayerid="8" nextobjectid="39">
+ <tileset firstgid="1" source="tiles/terrain.tsx"/>
+ <tileset firstgid="248" source="tiles/decorations.tsx"/>
+ <tileset firstgid="290" source="tiles/portal.tsx"/>
+ <layer id="1" name="background" width="30" height="10">
+  <data encoding="base64" compression="zlib">
+   eJwTZWBgEKMzFgdiDSDWpDPWQrJXGohlyDCDHH3I9uoBsT4Z9pKjD9leavuJGvaSGxaU2osNp0IxOemAGHtJNR+XHuQwo8S/lIazNRDb0BnbAjEAsugxNQ==
+  </data>
+ </layer>
+ <layer id="6" name="portal" width="30" height="10" offsetx="-21" offsety="22">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFo2BggBLjQLtgeAB6h+NAxhsAgwEAag==
+  </data>
+ </layer>
+ <objectgroup id="2" name="backgroundLayer">
+  <object id="8" x="0.125" y="0.1875" width="9.03056" height="319.835"/>
+  <object id="9" x="0.173913" y="310.783" width="959.739" height="9.13043"/>
+  <object id="10" x="950.438" y="0.0625" width="9.51902" height="319.938"/>
+  <object id="11" x="-0.0625" y="0.125" width="960.063" height="7.8125"/>
+  <object id="15" x="672" y="224" width="64" height="32"/>
+  <object id="17" x="448" y="192" width="64" height="32"/>
+  <object id="18" x="256" y="224" width="64" height="32"/>
+ </objectgroup>
+ <objectgroup id="7" name="portalLayer">
+  <object id="33" x="14.8182" y="257.795" width="27.5455" height="49.4432">
+   <properties>
+    <property name="map" value="map2.tmx"/>
+   </properties>
+  </object>
+  <object id="34" x="270.375" y="161.5" width="27.75" height="49.75">
+   <properties>
+    <property name="map" value="map4.tmx"/>
+   </properties>
+  </object>
+  <object id="35" x="911.182" y="257.739" width="25.9886" height="49.6136">
+   <properties>
+    <property name="map" value="map2.tmx"/>
+   </properties>
+  </object>
+ </objectgroup>
+</map>

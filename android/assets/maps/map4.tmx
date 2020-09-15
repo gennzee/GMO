@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.4" tiledversion="1.4.2" orientation="orthogonal" renderorder="right-down" width="40" height="20" tilewidth="16" tileheight="16" infinite="0" nextlayerid="6" nextobjectid="11">
+ <tileset firstgid="1" source="tiles/terrain_taiga.tsx"/>
+ <tileset firstgid="129" source="tiles/taiga_object.tsx"/>
+ <tileset firstgid="289" source="tiles/portal.tsx"/>
+ <layer id="4" name="background1" width="40" height="20">
+  <data encoding="base64" compression="zlib">
+   eJztzrEJACAMBdE/aUrdQNc3dYidkAh38PozSQYAAFLDzQYfN8vtBh/AS7Hqn+yv+uFnB8dsJDw=
+  </data>
+ </layer>
+ <layer id="1" name="background" width="40" height="20">
+  <data encoding="base64" compression="zlib">
+   eJztztkuA1EAh/EZVGzlwpJYqu/QB+o9b6CXtgcoGlcuUA+ACq0lQcXaJpTYSmKLpSqxxVZ8JzkNMXOnkyE5/+SXmcxMznyapqampqb2H9aKNrSjA5325hjmRxe60YOAvTmG9WMAgwhiyN4cw4YxglGEMGbx/8YxgTAimMQUpjFj8v0s5jCPKBYs7lvEEpaxglWsIYa4/MYria1jAwlsYsvivm3sYBd72EcSBzj81pZ1hGOc4BRnFved4wKXuEIK10jjxqTvFne4xwMef5znyXHfE57xgle8IYN3fJj05emalo8COFCof53VhOYcNxZxfjFKUIoyOFGOCt3YJ1TyvArVqJF9oqkFPnn/28Ze9MlrLf+oQz0a4EIj3OJevP/DPgE/b1C/
+  </data>
+ </layer>
+ <layer id="2" name="portal" width="40" height="20">
+  <data encoding="base64" compression="zlib">
+   eJztzkENAAAIBKAziv1LWsGfc4MEJAAAwFbX9eC3ATb/ACM=
+  </data>
+ </layer>
+ <objectgroup id="3" name="backgroundLayer">
+  <object id="1" x="0" y="0" height="320"/>
+  <object id="2" x="0" y="304" width="640" height="16"/>
+  <object id="3" x="640" y="0" height="320"/>
+  <object id="4" x="0" y="0" width="640"/>
+  <object id="5" x="160" y="288" width="80" height="16"/>
+  <object id="6" x="176" y="272" width="48" height="16"/>
+  <object id="7" x="192" y="256" width="16" height="16"/>
+  <object id="8" x="288" y="176" width="32" height="32"/>
+ </objectgroup>
+ <objectgroup id="5" name="portalLayer">
+  <object id="10" x="3.81818" y="252.182" width="26.1818" height="49.2727">
+   <properties>
+    <property name="map" value="map1.tmx"/>
+   </properties>
+  </object>
+ </objectgroup>
+</map>

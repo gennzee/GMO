@@ -1,0 +1,118 @@
+
+texture.png
+size: 1024,512
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+enemies/enemyAttack1/enemyAttack1
+  rotate: false
+  xy: 0, 318
+  size: 672, 96
+  orig: 672, 96
+  offset: 0, 0
+  index: -1
+enemies/enemyIdle1/enemyIdle1
+  rotate: false
+  xy: 0, 222
+  size: 480, 96
+  orig: 480, 96
+  offset: 0, 0
+  index: -1
+enemies/enemyRun1/enemyRun1
+  rotate: false
+  xy: 0, 414
+  size: 768, 96
+  orig: 768, 96
+  offset: 0, 0
+  index: -1
+player/otherPlayerIdle1/playerIdle1
+  rotate: false
+  xy: 0, 111
+  size: 200, 37
+  orig: 200, 37
+  offset: 0, 0
+  index: -1
+player/playerAttack1/playerAttack1
+  rotate: false
+  xy: 768, 473
+  size: 250, 37
+  orig: 250, 37
+  offset: 0, 0
+  index: -1
+player/playerFall1/playerFall1
+  rotate: false
+  xy: 0, 0
+  size: 100, 37
+  orig: 100, 37
+  offset: 0, 0
+  index: -1
+player/playerHighJump1/playerHighJump1
+  rotate: false
+  xy: 0, 148
+  size: 200, 37
+  orig: 200, 37
+  offset: 0, 0
+  index: -1
+player/playerHurt1/playerHurt1
+  rotate: false
+  xy: 0, 37
+  size: 150, 37
+  orig: 150, 37
+  offset: 0, 0
+  index: -1
+player/playerIdle1/playerIdle1
+  rotate: false
+  xy: 768, 436
+  size: 200, 37
+  orig: 200, 37
+  offset: 0, 0
+  index: -1
+player/playerJump1/playerJump1
+  rotate: false
+  xy: 300, 85
+  size: 100, 37
+  orig: 100, 37
+  offset: 0, 0
+  index: -1
+player/playerRun1/playerRun1
+  rotate: false
+  xy: 0, 185
+  size: 300, 37
+  orig: 300, 37
+  offset: 0, 0
+  index: -1
+player/playerSkill1/playerSkill1
+  rotate: false
+  xy: 0, 74
+  size: 200, 37
+  orig: 200, 37
+  offset: 0, 0
+  index: -1
+touchPad/buttonDown
+  rotate: false
+  xy: 200, 85
+  size: 100, 100
+  orig: 100, 100
+  offset: 0, 0
+  index: -1
+touchPad/buttonUp
+  rotate: false
+  xy: 300, 122
+  size: 100, 100
+  orig: 100, 100
+  offset: 0, 0
+  index: -1
+touchPad/touchBackground
+  rotate: false
+  xy: 480, 118
+  size: 200, 200
+  orig: 200, 200
+  offset: 0, 0
+  index: -1
+touchPad/touchKnob
+  rotate: false
+  xy: 672, 342
+  size: 72, 72
+  orig: 72, 72
+  offset: 0, 0
+  index: -1

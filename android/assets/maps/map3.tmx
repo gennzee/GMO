@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.4" tiledversion="1.4.2" orientation="orthogonal" renderorder="right-down" width="20" height="10" tilewidth="32" tileheight="32" infinite="0" nextlayerid="5" nextobjectid="10">
+ <tileset firstgid="1" source="tiles/terrain_treasure_hunter.tsx"/>
+ <tileset firstgid="86" source="tiles/portal.tsx"/>
+ <layer id="1" name="background" width="20" height="10">
+  <data encoding="base64" compression="zlib">
+   eJxjZ2BgUKES5gBiayAWphK2GgHmeQ4i97kCsRsQuw+h8EM3TwmImaiEFYEYAEz1EiY=
+  </data>
+ </layer>
+ <layer id="2" name="portal" width="20" height="10">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFo2BgQdhAOwAPAAA3iABX
+  </data>
+ </layer>
+ <objectgroup id="3" name="backgroundLayer">
+  <object id="1" x="0" y="0" width="32" height="320"/>
+  <object id="2" x="0" y="288" width="640" height="32"/>
+  <object id="3" x="608" y="0" width="32" height="320"/>
+  <object id="4" x="0" y="0" width="640" height="32"/>
+  <object id="5" x="352" y="192" width="96" height="32"/>
+  <object id="8" x="512" y="128" width="32" height="32"/>
+ </objectgroup>
+ <objectgroup id="4" name="portalLayer">
+  <object id="9" x="35.8182" y="236" width="26.2727" height="49.2727">
+   <properties>
+    <property name="map" value="map2.tmx"/>
+   </properties>
+  </object>
+ </objectgroup>
+</map>

@@ -5,6 +5,8 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.maps.MapObject;
+import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
@@ -13,13 +15,19 @@ import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.JsonValue;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.xa.GMO;
 
+import entities.Enemy;
 import entities.Player;
+import hud.TouchPad;
 import maps.AnimationTiledObject;
 import maps.B2WorldCreator;
+import resource.ResourceManager;
 
 import static constants.Constants.*;
 
@@ -27,6 +35,7 @@ public class PlayScreen implements Screen {
 
     public GMO game;
     private String map;
+    public Stage stage;
 
     private OrthographicCamera camera;
     private Viewport viewport;
@@ -37,7 +46,10 @@ public class PlayScreen implements Screen {
     private OrthogonalTiledMapRenderer orthogonalTiledMapRenderer;
     private TiledMap tiledMap;
 
-    private Player player;
+    private TouchPad touchPad;
+
+    public Player player;
+    private Array<Enemy> enemyArray;
 
     public PlayScreen(GMO game, String map){
         this.game = game;
@@ -46,6 +58,7 @@ public class PlayScreen implements Screen {
 
     @Override
     public void show() {
+        stage = new Stage(new FitViewport(V_WIDTH, V_HEIGHT, new OrthographicCamera()), game.batch);
         camera = new OrthographicCamera();
         viewport = new FitViewport(V_WIDTH / 3f / PPM, V_HEIGHT / 3f / PPM, camera);
         viewport.apply();
@@ -58,7 +71,21 @@ public class PlayScreen implements Screen {
         new B2WorldCreator(world, tiledMap);
         new AnimationTiledObject(tiledMap);
 
-        player = new Player(this, world, 20, 26);
+        touchPad = new TouchPad(this);
+
+        player = new Player(this, world, 50, 37, 20, 26);
+
+        enemyArray = new Array<>();
+        for(MapObject object : tiledMap.getLayers().get("enemiesLayer").getObjects()){
+            MapProperties enemiesProperties = object.getProperties();
+            float x = (float) enemiesProperties.get("x");
+            float y = (float) enemiesProperties.get("y");
+            String enemyName = enemiesProperties.get("name").toString();
+
+            JsonValue jsonValue = ResourceManager.enemiesJson.get(enemyName);
+            Enemy enemy = new Enemy(this, world, new Vector2(x / PPM,y / PPM), jsonValue);
+            enemyArray.add(enemy);
+        }
     }
 
     @Override
@@ -67,22 +94,30 @@ public class PlayScreen implements Screen {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         orthogonalTiledMapRenderer.render();
-        b2dr.render(world, camera.combined);
+        //b2dr.render(world, camera.combined);
         AnimatedTiledMapTile.updateAnimationBaseTime();
 
-        update(delta);
         game.batch.setProjectionMatrix(camera.combined);
-        orthogonalTiledMapRenderer.setView(camera);
         game.batch.begin();
+        for (Enemy enemy : enemyArray){
+            enemy.render(game.batch, delta);
+        }
         player.render(game.batch, delta);
         game.batch.end();
+
+        update(delta);
+
+        stage.act(delta);
+        stage.draw();
     }
 
     public void update(float dt){
-        handleCamera(dt);
+        updateCamera(dt);
+        updateMapView();
     }
 
-    public void handleCamera(float dt){
+    public void updateCamera(float dt){
+        //updateCamera must update after game.batch draw
         if(Gdx.input.isKeyPressed(Input.Keys.PAGE_UP)){
             camera.zoom -= 1;
         }else if(Gdx.input.isKeyPressed(Input.Keys.PAGE_DOWN)){
@@ -93,9 +128,15 @@ public class PlayScreen implements Screen {
         camera.update();
     }
 
+    public void updateMapView(){
+        //setView must update before camera.update();
+        orthogonalTiledMapRenderer.setView(camera);
+    }
+
     @Override
     public void resize(int width, int height) {
         viewport.update(width, height);
+        stage.getViewport().update(width, height);
     }
 
     @Override

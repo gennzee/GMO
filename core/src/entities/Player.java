@@ -21,8 +21,8 @@ public class Player extends Entity {
     public PlayerAnimation playerAnimation;
     private PlayerInputHandler playerInputHandler;
 
-    public Player(PlayScreen game, World world, int width, int height) {
-        super(world, width, height);
+    public Player(PlayScreen game, World world, int width, int height, int bodyWidth, int bodyHeight) {
+        super(world, width, height, bodyWidth, bodyHeight);
         this.game = game;
         this.body = createBody();
         this.playerAnimation = new PlayerAnimation(this);
@@ -41,8 +41,10 @@ public class Player extends Entity {
 
         FixtureDef fdef = new FixtureDef();
         PolygonShape polygonShape = new PolygonShape();
-        polygonShape.setAsBox(width / 2f / PPM, height / 2f / PPM);
+        polygonShape.setAsBox(bodyWidth / 2f / PPM, bodyHeight / 2f / PPM);
         fdef.shape = polygonShape;
+        fdef.filter.categoryBits = BIT_PLAYER;
+        fdef.filter.maskBits = BIT_DEFAULT;
         pBody.createFixture(fdef);
         return pBody;
     }

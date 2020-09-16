@@ -15,12 +15,15 @@ public abstract class Entity extends Sprite {
 
     public World world;
     protected int width, height;
+    protected int bodyWidth, bodyHeight;
 
-    public Entity(World world, int width, int height){
+    public Entity(World world, int width, int height, int bodyWidth, int bodyHeight){
         this.world = world;
         this.width = width;
         this.height = height;
-        setBounds(0,0, 50 / PPM, 37 / PPM);
+        this.bodyWidth = bodyWidth;
+        this.bodyHeight = bodyHeight;
+        setBounds(0,0, width / PPM, height / PPM);
     }
 
     public abstract Body createBody();

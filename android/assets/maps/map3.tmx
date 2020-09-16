@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.4" tiledversion="1.4.2" orientation="orthogonal" renderorder="right-down" width="20" height="10" tilewidth="32" tileheight="32" infinite="0" nextlayerid="5" nextobjectid="10">
+<map version="1.4" tiledversion="1.4.2" orientation="orthogonal" renderorder="right-down" width="20" height="10" tilewidth="32" tileheight="32" infinite="0" nextlayerid="7" nextobjectid="19">
  <tileset firstgid="1" source="tiles/terrain_treasure_hunter.tsx"/>
  <tileset firstgid="86" source="tiles/portal.tsx"/>
  <layer id="1" name="background" width="20" height="10">
@@ -25,6 +25,17 @@
    <properties>
     <property name="map" value="map2.tmx"/>
    </properties>
+  </object>
+ </objectgroup>
+ <objectgroup id="6" name="enemiesLayer">
+  <properties>
+   <property name="name" value="Slime"/>
+  </properties>
+  <object id="16" x="224" y="224">
+   <properties>
+    <property name="name" value="Slime"/>
+   </properties>
+   <ellipse/>
   </object>
  </objectgroup>
 </map>

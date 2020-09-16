@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.4" tiledversion="1.4.2" orientation="orthogonal" renderorder="right-down" width="30" height="10" tilewidth="32" tileheight="32" infinite="0" nextlayerid="8" nextobjectid="39">
+<map version="1.4" tiledversion="1.4.2" orientation="orthogonal" renderorder="right-down" width="30" height="10" tilewidth="32" tileheight="32" infinite="0" nextlayerid="9" nextobjectid="64">
  <tileset firstgid="1" source="tiles/terrain.tsx"/>
  <tileset firstgid="248" source="tiles/decorations.tsx"/>
  <tileset firstgid="290" source="tiles/portal.tsx"/>
@@ -37,6 +37,56 @@
    <properties>
     <property name="map" value="map2.tmx"/>
    </properties>
+  </object>
+ </objectgroup>
+ <objectgroup id="8" name="enemiesLayer">
+  <object id="39" x="192" y="224">
+   <properties>
+    <property name="name" value="Minotaur"/>
+   </properties>
+   <ellipse/>
+  </object>
+  <object id="40" x="384" y="224">
+   <properties>
+    <property name="name" value="Minotaur"/>
+   </properties>
+   <ellipse/>
+  </object>
+  <object id="41" x="576" y="224">
+   <properties>
+    <property name="name" value="Minotaur"/>
+   </properties>
+   <ellipse/>
+  </object>
+  <object id="42" x="800" y="224">
+   <properties>
+    <property name="name" value="Minotaur"/>
+   </properties>
+   <ellipse/>
+  </object>
+  <object id="60" x="128" y="256">
+   <properties>
+    <property name="name" value="Slime"/>
+   </properties>
+   <ellipse/>
+  </object>
+  <object id="61" x="480" y="256">
+   <properties>
+    <property name="name" value="Slime"/>
+   </properties>
+   <ellipse/>
+  </object>
+  <object id="62" x="768" y="256">
+   <properties>
+    <property name="name" value="Slime"/>
+   </properties>
+   <ellipse/>
+  </object>
+  <object id="63" x="864" y="256">
+   <properties>
+    <property name="name" value="Slime"/>
+   </properties>
+   <ellipse/>
   </object>
  </objectgroup>
 </map>

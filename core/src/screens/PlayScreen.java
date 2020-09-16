@@ -5,6 +5,8 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.maps.MapObject;
+import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
@@ -14,6 +16,8 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.JsonValue;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.xa.GMO;
@@ -23,6 +27,7 @@ import entities.Player;
 import hud.TouchPad;
 import maps.AnimationTiledObject;
 import maps.B2WorldCreator;
+import resource.ResourceManager;
 
 import static constants.Constants.*;
 
@@ -44,7 +49,7 @@ public class PlayScreen implements Screen {
     private TouchPad touchPad;
 
     public Player player;
-    private Enemy enemy;
+    private Array<Enemy> enemyArray;
 
     public PlayScreen(GMO game, String map){
         this.game = game;
@@ -69,7 +74,18 @@ public class PlayScreen implements Screen {
         touchPad = new TouchPad(this);
 
         player = new Player(this, world, 50, 37, 20, 26);
-        enemy = new Enemy(this, world, 96, 96, 33, 44);
+
+        enemyArray = new Array<>();
+        for(MapObject object : tiledMap.getLayers().get("enemiesLayer").getObjects()){
+            MapProperties enemiesProperties = object.getProperties();
+            float x = (float) enemiesProperties.get("x");
+            float y = (float) enemiesProperties.get("y");
+            String enemyName = enemiesProperties.get("name").toString();
+
+            JsonValue jsonValue = ResourceManager.enemiesJson.get(enemyName);
+            Enemy enemy = new Enemy(this, world, new Vector2(x / PPM,y / PPM), jsonValue);
+            enemyArray.add(enemy);
+        }
     }
 
     @Override
@@ -78,12 +94,14 @@ public class PlayScreen implements Screen {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         orthogonalTiledMapRenderer.render();
-        b2dr.render(world, camera.combined);
+        //b2dr.render(world, camera.combined);
         AnimatedTiledMapTile.updateAnimationBaseTime();
 
         game.batch.setProjectionMatrix(camera.combined);
         game.batch.begin();
-        enemy.render(game.batch, delta);
+        for (Enemy enemy : enemyArray){
+            enemy.render(game.batch, delta);
+        }
         player.render(game.batch, delta);
         game.batch.end();
 

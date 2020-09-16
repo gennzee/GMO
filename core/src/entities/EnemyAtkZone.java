@@ -5,6 +5,7 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.utils.JsonValue;
 
 import static constants.Constants.PPM;
 
@@ -15,13 +16,18 @@ public class EnemyAtkZone {
     private World world;
     private Body body;
     private Body bodyAttack;
+    private float atkZone;
+    private float atkBodySize;
+    private int atkFrame;
 
     public EnemyAtkZone(Player player, Enemy enemy, World world){
         this.player = player;
         this.enemy = enemy;
         this.world = world;
+        this.atkZone = enemy.jsonValue.getFloat("atkZone");
+        this.atkBodySize = enemy.jsonValue.getFloat("atkBodySize");
+        this.atkFrame = enemy.jsonValue.getInt("atkInFrame");
         this.body = createBody();
-        this.bodyAttack = createBodyAttack();
     }
 
     public Body createBody(){
@@ -34,7 +40,7 @@ public class EnemyAtkZone {
         pBody = world.createBody(bdef);
 
         PolygonShape polygonShape = new PolygonShape();
-        polygonShape.setAsBox(40 / PPM, 40 / PPM);
+        polygonShape.setAsBox(atkZone / PPM, atkZone / PPM);
         FixtureDef fdef = new FixtureDef();
         fdef.isSensor = true;
         fdef.shape = polygonShape;
@@ -53,7 +59,7 @@ public class EnemyAtkZone {
         pBody = world.createBody(bdef);
 
         PolygonShape polygonShape = new PolygonShape();
-        polygonShape.setAsBox(15 / PPM, 15 / PPM);
+        polygonShape.setAsBox(atkBodySize / PPM, atkBodySize / PPM);
         FixtureDef fdef = new FixtureDef();
         fdef.isSensor = true;
         fdef.shape = polygonShape;
@@ -64,7 +70,7 @@ public class EnemyAtkZone {
     public void update(float dt){
         float playerPositionX = player.body.getPosition().x;
         float enemyPositionX = enemy.body.getPosition().x;
-        float a = (playerPositionX > enemyPositionX) ? playerPositionX - (body.getPosition().x + 40 / PPM) : (body.getPosition().x - 40 / PPM) - playerPositionX;
+        float a = (playerPositionX > enemyPositionX) ? playerPositionX - (body.getPosition().x + enemy.jsonValue.getInt("atkZone") / PPM) : (body.getPosition().x - enemy.jsonValue.getInt("atkZone") / PPM) - playerPositionX;
         boolean isPlayerInAttackRange = a < 0;
 
         if(isPlayerInAttackRange && !enemy.enemyAnimation.canAttack){
@@ -78,19 +84,6 @@ public class EnemyAtkZone {
         body.setTransform(enemy.body.getPosition().x, enemy.body.getPosition().y, 0);
     }
 
-    public void setAttackBoxDirection(float playerPositionX, float enemyPositionX){
-        float distance = playerPositionX - enemyPositionX;
-        float box2dAttackPosition;
-        if(distance > 0){
-            box2dAttackPosition = enemyPositionX + 33f / PPM;
-            enemy.enemyAnimation.isLookingToRight = true;
-        }else{
-            box2dAttackPosition = enemyPositionX - 33f / PPM;
-            enemy.enemyAnimation.isLookingToRight = false;
-        }
-        if(bodyAttack != null) bodyAttack.setTransform(box2dAttackPosition, enemy.body.getPosition().y, 0);
-    }
-
     public void handleCanAttack(float playerPositionX, float enemyPositionX, float dt){
         if(enemy.enemyAnimation.canAttack){
             if(enemy.enemyAnimation.attackTime >= enemy.enemyAnimation.attackPeriod){
@@ -99,7 +92,7 @@ public class EnemyAtkZone {
                 enemy.enemyAnimation.canAttack = false;
                 enemy.enemyAnimation.attackTime = 0f;
             }else{
-                if(enemy.enemyAnimation.enemyAttackAni.getKeyFrameIndex(enemy.enemyAnimation.attackTime) == 4){
+                if(enemy.enemyAnimation.enemyAttackAni.getKeyFrameIndex(enemy.enemyAnimation.attackTime) == atkFrame){
                     if(bodyAttack == null) bodyAttack = createBodyAttack();
                 }
                 setAttackBoxDirection(playerPositionX, enemyPositionX);
@@ -108,6 +101,19 @@ public class EnemyAtkZone {
         }else{
             enemy.enemyAnimation.attackTime = 0f;
         }
+    }
+
+    public void setAttackBoxDirection(float playerPositionX, float enemyPositionX){
+        float distance = playerPositionX - enemyPositionX;
+        float box2dAttackPosition;
+        if(distance > 0){
+            box2dAttackPosition = enemyPositionX + enemy.jsonValue.getInt("bodyWidth") / PPM;
+            enemy.enemyAnimation.isLookingToRight = true;
+        }else{
+            box2dAttackPosition = enemyPositionX - enemy.jsonValue.getInt("bodyWidth") / PPM;
+            enemy.enemyAnimation.isLookingToRight = false;
+        }
+        if(bodyAttack != null) bodyAttack.setTransform(box2dAttackPosition, enemy.body.getPosition().y, 0);
     }
 
 }

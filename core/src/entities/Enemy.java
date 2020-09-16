@@ -4,10 +4,10 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.utils.JsonValue;
 
 import constants.Constants;
 import entities.animations.EnemyAnimation;
@@ -19,15 +19,19 @@ public class Enemy extends Entity {
 
     public PlayScreen game;
     public Body body;
+    private Vector2 position;
     public EnemyAnimation enemyAnimation;
     private EnemyScanZone enemyScanZone;
     private EnemyAtkZone enemyAtkZone;
+    public JsonValue jsonValue;
 
 
-    public Enemy(PlayScreen game, World world, int width, int height, int bodyWidth, int bodyHeight) {
-        super(world, width, height, bodyWidth, bodyHeight);
+    public Enemy(PlayScreen game, World world, Vector2 position, JsonValue jsonValue) {
+        super(world, jsonValue.getInt("width"), jsonValue.getInt("height"), jsonValue.getInt("bodyWidth"), jsonValue.getInt("bodyHeight"));
         this.game = game;
+        this.position = position;
         this.body = createBody();
+        this.jsonValue = jsonValue;
         this.enemyAnimation = new EnemyAnimation(this);
         this.enemyScanZone = new EnemyScanZone(game.player, this, world);
         this.enemyAtkZone = new EnemyAtkZone(game.player, this, world);
@@ -40,7 +44,7 @@ public class Enemy extends Entity {
         bdef.type = BodyDef.BodyType.DynamicBody;
         bdef.fixedRotation = true;
         bdef.allowSleep = false;
-        bdef.position.add( new Vector2(100f / PPM,50f / PPM));
+        bdef.position.add( position );
 
         pBody = world.createBody(bdef);
         FixtureDef fdef = new FixtureDef();
@@ -69,7 +73,7 @@ public class Enemy extends Entity {
         enemyAtkZone.update(dt);
 
         setRegion(enemyAnimation.getTextureRegion(dt));
-        setPosition(body.getPosition().x - (getWidth() / 2f), body.getPosition().y - (getHeight() / 2f) - 4/ Constants.PPM);
+        setPosition(body.getPosition().x - (getWidth() / 2f), body.getPosition().y - (getHeight() / 2f) - (jsonValue.getInt("heightDif") / Constants.PPM));
     }
 
     @Override

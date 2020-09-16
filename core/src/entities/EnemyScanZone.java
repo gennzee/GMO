@@ -6,6 +6,7 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.utils.JsonValue;
 
 import static constants.Constants.*;
 
@@ -15,11 +16,13 @@ public class EnemyScanZone {
     private Enemy enemy;
     private World world;
     public Body body;
+    private float scanZone;
 
     public EnemyScanZone(Player player, Enemy enemy, World world) {
         this.player = player;
         this.enemy = enemy;
         this.world = world;
+        this.scanZone = enemy.jsonValue.getFloat("scanZone");
         this.body = createBody();
     }
 
@@ -33,7 +36,7 @@ public class EnemyScanZone {
         pBody = world.createBody(bodyDef);
 
         CircleShape circleShape = new CircleShape();
-        circleShape.setRadius(150f / PPM);
+        circleShape.setRadius(scanZone / PPM);
         FixtureDef fdef = new FixtureDef();
         fdef.isSensor = true;
         fdef.shape = circleShape;

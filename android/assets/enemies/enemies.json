@@ -1,0 +1,66 @@
+{
+  "Minotaur" : {
+    "width" : 96,
+    "height" : 96,
+    "bodyWidth" : 33,
+    "bodyHeight" : 44,
+    "heightDif" : 7,
+    "scanZone" : 150,
+    "atkZone" : 40,
+    "atkBodySize" : 15,
+    "atkInFrame" : 4,
+    "atkTime" : 1,
+    "animation" : {
+      "idle" : {
+        "path" : "enemies/minotaur/idle/enemyIdle1",
+        "row" : 1,
+        "col" : 5,
+        "duration" : 5
+      },
+      "run" : {
+        "path" : "enemies/minotaur/run/enemyRun1",
+        "row" : 1,
+        "col" : 8,
+        "duration" : 8
+      },
+      "attack" : {
+        "path" : "enemies/minotaur/attack/enemyAttack1",
+        "row" : 1,
+        "col" : 7,
+        "duration" : 7
+      }
+    }
+  },
+  "Slime" : {
+    "width" : 32,
+    "height" : 25,
+    "bodyWidth" : 28,
+    "bodyHeight" : 17,
+    "heightDif" : -2,
+    "scanZone" : 150,
+    "atkZone" : 40,
+    "atkBodySize" : 7.5,
+    "atkInFrame" : 3,
+    "atkTime" : 1,
+    "animation" : {
+      "idle" : {
+        "path" : "enemies/slime/idle/slimeIdle",
+        "row" : 1,
+        "col" : 4,
+        "duration" : 4
+      },
+      "run" : {
+        "path" : "enemies/slime/run/slimeRun",
+        "row" : 1,
+        "col" : 4,
+        "duration" : 4
+      },
+      "attack" : {
+        "path" : "enemies/slime/attack/slimeAttack",
+        "row" : 1,
+        "col" : 5,
+        "duration" : 5
+      }
+    }
+  }
+}

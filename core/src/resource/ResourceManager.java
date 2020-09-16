@@ -1,10 +1,13 @@
 package resource;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.utils.JsonReader;
+import com.badlogic.gdx.utils.JsonValue;
 
 public class ResourceManager {
 
@@ -24,12 +27,11 @@ public class ResourceManager {
     public static TextureRegion[][] playerFallFrames;
     public static TextureRegion[][] playerBasicAttackFrames;
     public static TextureRegion[][] playerSkillAttackFrames;
-    public static TextureRegion[][] enemyIdleFrames;
-    public static TextureRegion[][] enemyRunFrames;
-    public static TextureRegion[][] enemyAttackFrames;
-
+    public static JsonReader jsonReader;
+    public static JsonValue enemiesJson;
 
     public static void load(){
+        jsonReader = new JsonReader();
         manager.load(textureAtlastPath, TextureAtlas.class);
         manager.load(bitMapFontPath, BitmapFont.class);
         manager.load(touchBackgroundPath, Texture.class);
@@ -46,9 +48,12 @@ public class ResourceManager {
         playerFallFrames = textureAtlas.findRegion("player/playerFall1/playerFall1").split(50,37);
         playerBasicAttackFrames = textureAtlas.findRegion("player/playerAttack1/playerAttack1").split(50,37);
         playerSkillAttackFrames = textureAtlas.findRegion("player/playerSkill1/playerSkill1").split(50,37);
-        enemyIdleFrames = textureAtlas.findRegion("enemies/enemyIdle1/enemyIdle1").split(96,96);
-        enemyRunFrames = textureAtlas.findRegion("enemies/enemyRun1/enemyRun1").split(96,96);
-        enemyAttackFrames = textureAtlas.findRegion("enemies/enemyAttack1/enemyAttack1").split(96,96);
+
+        enemiesJson = jsonReader.parse(Gdx.files.internal("enemies/enemies.json"));
+    }
+
+    public static TextureRegion[][] getFrames(String path, int width, int height){
+        return textureAtlas.findRegion(path).split(width, height);
     }
 
     public static void dispose(){

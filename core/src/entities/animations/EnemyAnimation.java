@@ -2,15 +2,9 @@ package entities.animations;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.CircleShape;
-import com.badlogic.gdx.physics.box2d.FixtureDef;
 
 import entities.Enemy;
 import resource.ResourceManager;
-
-import static constants.Constants.*;
 
 public class EnemyAnimation extends entities.animations.Animation {
 
@@ -33,9 +27,27 @@ public class EnemyAnimation extends entities.animations.Animation {
     public EnemyAnimation(Enemy enemy){
         super();
         this.enemy = enemy;
-        this.enemyIdleAni = createAnimation(ResourceManager.enemyIdleFrames, 1, 5, 1/5f);
-        this.enemyRunAni = createAnimation(ResourceManager.enemyRunFrames, 1, 8, 1/8f);
-        this.enemyAttackAni = createAnimation(ResourceManager.enemyAttackFrames, 1, 7, 1/7f);
+        this.enemyIdleAni = createAnimation(ResourceManager.getFrames(
+                enemy.jsonValue.get("animation").get("idle").getString("path"),
+                enemy.jsonValue.getInt("width"),
+                enemy.jsonValue.getInt("height")),
+                enemy.jsonValue.get("animation").get("idle").getInt("row"),
+                enemy.jsonValue.get("animation").get("idle").getInt("col"),
+                (float) 1 / enemy.jsonValue.get("animation").get("idle").getInt("duration"));
+        this.enemyRunAni = createAnimation(ResourceManager.getFrames(
+                enemy.jsonValue.get("animation").get("run").getString("path"),
+                enemy.jsonValue.getInt("width"),
+                enemy.jsonValue.getInt("height")),
+                enemy.jsonValue.get("animation").get("run").getInt("row"),
+                enemy.jsonValue.get("animation").get("run").getInt("col"),
+                (float) 1 / enemy.jsonValue.get("animation").get("run").getInt("duration"));
+        this.enemyAttackAni = createAnimation(ResourceManager.getFrames(
+                enemy.jsonValue.get("animation").get("attack").getString("path"),
+                enemy.jsonValue.getInt("width"),
+                enemy.jsonValue.getInt("height")),
+                enemy.jsonValue.get("animation").get("attack").getInt("row"),
+                enemy.jsonValue.get("animation").get("attack").getInt("col"),
+                (float) 1 / enemy.jsonValue.get("animation").get("attack").getInt("duration"));
         this.previousState = State.IDLE;
         this.currentState = State.IDLE;
         this.elapsedTime = 0f;
@@ -43,7 +55,7 @@ public class EnemyAnimation extends entities.animations.Animation {
         this.distanceToPlayer = 0f;
         this.canAttack = false;
         this.attackTime = 0f;
-        this.attackPeriod = 1f;
+        this.attackPeriod = enemy.jsonValue.getFloat("atkTime");
     }
 
     @Override

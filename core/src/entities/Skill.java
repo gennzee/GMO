@@ -17,8 +17,8 @@ public class Skill extends Entity {
     private Player player;
     private SkillAnimation skillAnimation;
 
-    public Skill(World world, Player player, int width, int height) {
-        super(world, width, height);
+    public Skill(World world, Player player, int width, int height, int bodyWidth, int bodyHeight) {
+        super(world, width, height, bodyWidth, bodyHeight);
         this.player = player;
         this.body = createBody();
         this.skillAnimation = new SkillAnimation(player);
@@ -40,7 +40,7 @@ public class Skill extends Entity {
         pBody = world.createBody(bdef);
         FixtureDef fdef = new FixtureDef();
         PolygonShape polygonShape = new PolygonShape();
-        polygonShape.setAsBox((20/2f) / PPM,(26/2f) / PPM);
+        polygonShape.setAsBox(bodyWidth / 2f / PPM,bodyHeight / 2f / PPM);
         fdef.shape = polygonShape;
         fdef.isSensor = true;
         pBody.createFixture(fdef).setUserData(this);

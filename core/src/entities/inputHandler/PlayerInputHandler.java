@@ -37,7 +37,7 @@ public class PlayerInputHandler {
 
     public void handleSkillInput(float dt){
         if(Gdx.input.isKeyPressed(Input.Keys.F) && !player.playerAnimation.isAttacking){
-            skill = new Skill(player.world, player, 50, 37);
+            skill = new Skill(player.world, player, 50, 37, 20, 26);
             player.playerAnimation.isAttacking = true;
         }else if(player.playerAnimation.isAttacking){
             if(player.playerAnimation.skillTimer >= player.playerAnimation.skillPeriod){

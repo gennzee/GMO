@@ -18,6 +18,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.xa.GMO;
 
+import entities.Enemy;
 import entities.Player;
 import hud.TouchPad;
 import maps.AnimationTiledObject;
@@ -40,8 +41,10 @@ public class PlayScreen implements Screen {
     private OrthogonalTiledMapRenderer orthogonalTiledMapRenderer;
     private TiledMap tiledMap;
 
-    private Player player;
     private TouchPad touchPad;
+
+    public Player player;
+    private Enemy enemy;
 
     public PlayScreen(GMO game, String map){
         this.game = game;
@@ -63,9 +66,10 @@ public class PlayScreen implements Screen {
         new B2WorldCreator(world, tiledMap);
         new AnimationTiledObject(tiledMap);
 
-        player = new Player(this, world, 20, 26);
-
         touchPad = new TouchPad(this);
+
+        player = new Player(this, world, 50, 37, 20, 26);
+        enemy = new Enemy(this, world, 96, 96, 33, 44);
     }
 
     @Override
@@ -77,22 +81,25 @@ public class PlayScreen implements Screen {
         b2dr.render(world, camera.combined);
         AnimatedTiledMapTile.updateAnimationBaseTime();
 
-        update(delta);
         game.batch.setProjectionMatrix(camera.combined);
-        orthogonalTiledMapRenderer.setView(camera);
         game.batch.begin();
+        enemy.render(game.batch, delta);
         player.render(game.batch, delta);
         game.batch.end();
+
+        update(delta);
 
         stage.act(delta);
         stage.draw();
     }
 
     public void update(float dt){
-        handleCamera(dt);
+        updateCamera(dt);
+        updateMapView();
     }
 
-    public void handleCamera(float dt){
+    public void updateCamera(float dt){
+        //updateCamera must update after game.batch draw
         if(Gdx.input.isKeyPressed(Input.Keys.PAGE_UP)){
             camera.zoom -= 1;
         }else if(Gdx.input.isKeyPressed(Input.Keys.PAGE_DOWN)){
@@ -101,6 +108,11 @@ public class PlayScreen implements Screen {
         camera.position.x = Interpolation.linear.apply(camera.position.x, player.body.getPosition().x, .1f);
         camera.position.y = Interpolation.linear.apply(camera.position.y, player.body.getPosition().y, .1f);
         camera.update();
+    }
+
+    public void updateMapView(){
+        //setView must update before camera.update();
+        orthogonalTiledMapRenderer.setView(camera);
     }
 
     @Override

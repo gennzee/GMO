@@ -25,11 +25,11 @@ public class TouchPad implements Disposable {
     private Drawable touchBackground;
     private Drawable touchKnob;
 
-    private TextureAtlas textureAtlas;
     private Skin buttonSkin;
-    private BitmapFont bitmapFont;
     public TextButton jumpButton;
     public TextButton attackButton;
+    public TextButton skillButton1;
+    public TextButton skillButton2;
 
     public TouchPad(PlayScreen game){
         this.game = game;
@@ -62,38 +62,36 @@ public class TouchPad implements Disposable {
     }
 
     public void createActionButtons(){
-        textureAtlas = ResourceManager.textureAtlas;
-        buttonSkin = new Skin(textureAtlas);
-        bitmapFont = ResourceManager.bitmapFont;
+        buttonSkin = new Skin(ResourceManager.textureAtlas);
 
         TextButton.TextButtonStyle textButtonStyle = new TextButton.TextButtonStyle();
         textButtonStyle.up = buttonSkin.getDrawable("touchPad/buttonUp");
         textButtonStyle.down = buttonSkin.getDrawable("touchPad/buttonDown");
         textButtonStyle.pressedOffsetX = 1;
         textButtonStyle.pressedOffsetY = -1;
-        textButtonStyle.font = bitmapFont;
+        textButtonStyle.font = ResourceManager.bitmapFont;
 
         jumpButton = new TextButton("Jump", textButtonStyle);
-        jumpButton.setBounds(V_WIDTH - 400, 70, 200, 200);
+        jumpButton.setBounds(V_WIDTH - 400, 70, 100, 100);
         game.stage.addActor(jumpButton);
 
         attackButton = new TextButton("Attack", textButtonStyle);
-        attackButton.setBounds(V_WIDTH - 200, 70, 200, 200);
+        attackButton.setBounds(V_WIDTH - 200, 70, 100, 100);
         game.stage.addActor(attackButton);
+
+        skillButton1 = new TextButton("Skill 1", textButtonStyle);
+        skillButton1.setBounds(V_WIDTH - 350, 220, 100, 100);
+        game.stage.addActor(skillButton1);
+
+        skillButton2 = new TextButton("Skill 2", textButtonStyle);
+        skillButton2.setBounds(V_WIDTH - 200, 270, 100, 100);
+        game.stage.addActor(skillButton2);
     }
 
     @Override
     public void dispose(){
         game.stage.dispose();
         touchpadSkin.dispose();
-        System.out.println("touchPad disposed");
     }
 
-    public Touchpad getTouchpad() {
-        return touchpad;
-    }
-
-    public void setTouchpad(Touchpad touchpad) {
-        this.touchpad = touchpad;
-    }
 }

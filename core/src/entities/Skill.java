@@ -14,7 +14,7 @@ import static constants.Constants.PPM;
 public class Skill extends Entity {
 
     public Body body;
-    private Player player;
+    public Player player;
     private SkillAnimation skillAnimation;
 
     public Skill(World world, Player player, int width, int height, int bodyWidth, int bodyHeight) {

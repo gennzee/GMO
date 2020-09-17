@@ -39,6 +39,7 @@ public class PlayerInputHandler {
         if(Gdx.input.isKeyPressed(Input.Keys.F) && !player.playerAnimation.isAttacking){
             skill = new Skill(player.world, player, 50, 37, 20, 26);
             player.playerAnimation.isAttacking = true;
+            player.game.statusBar.mp -= 10;
         }else if(player.playerAnimation.isAttacking){
             if(player.playerAnimation.skillTimer >= player.playerAnimation.skillPeriod){
                 player.world.destroyBody(skill.body);

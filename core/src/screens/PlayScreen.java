@@ -25,9 +25,11 @@ import com.xa.GMO;
 import entities.Enemy;
 import entities.Player;
 import hud.TouchPad;
+import hud.statusBar.StatusBar;
 import maps.AnimationTiledObject;
 import maps.B2WorldCreator;
 import resource.ResourceManager;
+import worldContact.WorldContactListener;
 
 import static constants.Constants.*;
 
@@ -37,7 +39,7 @@ public class PlayScreen implements Screen {
     private String map;
     public Stage stage;
 
-    private OrthographicCamera camera;
+    public OrthographicCamera camera;
     private Viewport viewport;
 
     private World world;
@@ -47,6 +49,7 @@ public class PlayScreen implements Screen {
     private TiledMap tiledMap;
 
     private TouchPad touchPad;
+    public StatusBar statusBar;
 
     public Player player;
     private Array<Enemy> enemyArray;
@@ -71,8 +74,6 @@ public class PlayScreen implements Screen {
         new B2WorldCreator(world, tiledMap);
         new AnimationTiledObject(tiledMap);
 
-        touchPad = new TouchPad(this);
-
         player = new Player(this, world, 50, 37, 20, 26);
 
         enemyArray = new Array<>();
@@ -86,6 +87,12 @@ public class PlayScreen implements Screen {
             Enemy enemy = new Enemy(this, world, new Vector2(x / PPM,y / PPM), jsonValue);
             enemyArray.add(enemy);
         }
+
+        touchPad = new TouchPad(this);
+        statusBar = new StatusBar(this, 100, 100);
+
+        stage.setDebugAll(true);
+        world.setContactListener(new WorldContactListener());
     }
 
     @Override
@@ -94,7 +101,7 @@ public class PlayScreen implements Screen {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         orthogonalTiledMapRenderer.render();
-        //b2dr.render(world, camera.combined);
+        b2dr.render(world, camera.combined);
         AnimatedTiledMapTile.updateAnimationBaseTime();
 
         game.batch.setProjectionMatrix(camera.combined);
@@ -104,8 +111,8 @@ public class PlayScreen implements Screen {
         }
         player.render(game.batch, delta);
         game.batch.end();
-
         update(delta);
+        statusBar.draw(game.batch, delta);
 
         stage.act(delta);
         stage.draw();

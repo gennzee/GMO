@@ -47,7 +47,7 @@ public class EnemyScanZone {
 
     public void update(float dt) {
         float distance = player.body.getPosition().x - enemy.body.getPosition().x;
-        float a = (player.body.getPosition().x > enemy.body.getPosition().x) ? player.body.getPosition().x - (body.getPosition().x + 150f / PPM) : (body.getPosition().x - 150f / PPM) - player.body.getPosition().x;
+        float a = (player.body.getPosition().x > enemy.body.getPosition().x) ? player.body.getPosition().x - (body.getPosition().x + scanZone / PPM) : (body.getPosition().x - scanZone / PPM) - player.body.getPosition().x;
         boolean isPlayerInRange = a < 0;
         if(isPlayerInRange && !enemy.enemyAnimation.canAttack){
             enemy.enemyAnimation.distanceToPlayer = distance;

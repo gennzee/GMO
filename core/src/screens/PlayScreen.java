@@ -25,6 +25,7 @@ import com.xa.GMO;
 import entities.Enemy;
 import entities.Player;
 import hud.TouchPad;
+import hud.statusBar.StatusBar;
 import maps.AnimationTiledObject;
 import maps.B2WorldCreator;
 import resource.ResourceManager;
@@ -48,6 +49,7 @@ public class PlayScreen implements Screen {
     private TiledMap tiledMap;
 
     private TouchPad touchPad;
+    public StatusBar statusBar;
 
     public Player player;
     private Array<Enemy> enemyArray;
@@ -72,8 +74,6 @@ public class PlayScreen implements Screen {
         new B2WorldCreator(world, tiledMap);
         new AnimationTiledObject(tiledMap);
 
-        touchPad = new TouchPad(this);
-
         player = new Player(this, world, 50, 37, 20, 26);
 
         enemyArray = new Array<>();
@@ -88,6 +88,10 @@ public class PlayScreen implements Screen {
             enemyArray.add(enemy);
         }
 
+        touchPad = new TouchPad(this);
+        statusBar = new StatusBar(this, 100, 100);
+
+        stage.setDebugAll(true);
         world.setContactListener(new WorldContactListener());
     }
 
@@ -107,8 +111,8 @@ public class PlayScreen implements Screen {
         }
         player.render(game.batch, delta);
         game.batch.end();
-
         update(delta);
+        statusBar.draw(game.batch, delta);
 
         stage.act(delta);
         stage.draw();

@@ -20,7 +20,7 @@ public class Player extends Entity {
 
     public PlayScreen game;
     public Body body;
-    private Label name;
+    public Label name;
     public PlayerAnimation playerAnimation;
     private PlayerInputHandler playerInputHandler;
 

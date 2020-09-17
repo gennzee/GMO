@@ -18,12 +18,14 @@ public class ResourceManager {
     public static final String touchBackgroundPath = "touchpad/touchBackground.png";
     public static final String touchKnobPath = "touchpad/touchKnob.png";
     public static final String skinPath = "uiSkin/uiskin.json";
+    public static final String statusBarPath = "texture/statusBar/statusBar.png";
     /*----------------------------------------------------------------*/
     public static TextureAtlas textureAtlas;
     public static BitmapFont bitmapFont;
     public static Texture touchBackground;
     public static Texture touchKnob;
     public static Skin skin;
+    public static Texture statusBar;
     public static TextureRegion[][] playerIdleFrames;
     public static TextureRegion[][] playerRunFrames;
     public static TextureRegion[][] playerJumpFrames;
@@ -40,12 +42,14 @@ public class ResourceManager {
         manager.load(touchBackgroundPath, Texture.class);
         manager.load(touchKnobPath, Texture.class);
         manager.load(skinPath, Skin.class);
+        manager.load(statusBarPath, Texture.class);
         while(!manager.update()) System.out.println(manager.getProgress() * 100);
         textureAtlas = manager.get(textureAtlastPath, TextureAtlas.class);
         bitmapFont = manager.get(bitMapFontPath, BitmapFont.class);
         touchBackground = manager.get(touchBackgroundPath, Texture.class);
         touchKnob = manager.get(touchKnobPath, Texture.class);
         skin = manager.get(skinPath, Skin.class);
+        statusBar = manager.get(statusBarPath, Texture.class);
 
         playerIdleFrames = textureAtlas.findRegion("player/playerIdle1/playerIdle1").split(50,37);
         playerRunFrames = textureAtlas.findRegion("player/playerRun1/playerRun1").split(50,37);

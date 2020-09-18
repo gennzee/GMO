@@ -70,7 +70,7 @@ public class Enemy extends Entity {
     }
 
     public void updateEnemyName(float dt){
-        Vector3 pos = game.camera.project(new Vector3(body.getPosition().x, body.getPosition().y + (getHeight() / 2f) - ((height - bodyHeight) / 2f) / PPM, 0));
+        Vector3 pos = game.camera.project(new Vector3(body.getPosition().x, body.getPosition().y + (getHeight() / 2f) - ((height - bodyHeight) / 2f) / PPM, 0), 0, 0, V_WIDTH, V_HEIGHT);
         name.setPosition(pos.x - (name.getWidth() / 2f), pos.y);
     }
 

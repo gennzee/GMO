@@ -94,4 +94,7 @@ public class TouchPad implements Disposable {
         touchpadSkin.dispose();
     }
 
+    public Touchpad getTouchpad() {
+        return touchpad;
+    }
 }

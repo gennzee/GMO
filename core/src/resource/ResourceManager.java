@@ -18,6 +18,7 @@ public class ResourceManager {
     public static final String touchBackgroundPath = "touchpad/touchBackground.png";
     public static final String touchKnobPath = "touchpad/touchKnob.png";
     public static final String skinPath = "uiSkin/uiskin.json";
+    public static final String arialFontPath = "fonts/arial.fnt";
     public static final String statusBarPath = "texture/statusBar/statusBar.png";
     /*----------------------------------------------------------------*/
     public static TextureAtlas textureAtlas;
@@ -42,6 +43,7 @@ public class ResourceManager {
         manager.load(touchBackgroundPath, Texture.class);
         manager.load(touchKnobPath, Texture.class);
         manager.load(skinPath, Skin.class);
+        manager.load(arialFontPath, BitmapFont.class);
         manager.load(statusBarPath, Texture.class);
         while(!manager.update()) System.out.println(manager.getProgress() * 100);
         textureAtlas = manager.get(textureAtlastPath, TextureAtlas.class);

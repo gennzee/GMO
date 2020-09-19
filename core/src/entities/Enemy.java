@@ -11,6 +11,8 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.JsonValue;
 
+import java.util.HashMap;
+
 import constants.Constants;
 import entities.animations.EnemyAnimation;
 import resource.ResourceManager;
@@ -28,7 +30,8 @@ public class Enemy extends Entity {
     private EnemyScanZone enemyScanZone;
     private EnemyAtkZone enemyAtkZone;
     public JsonValue jsonValue;
-
+    public HashMap<Label, Vector3> onHitList;
+    public float onHitTime;
 
     public Enemy(PlayScreen game, World world, Vector2 position, JsonValue jsonValue) {
         super(world, jsonValue.getInt("width"), jsonValue.getInt("height"), jsonValue.getInt("bodyWidth"), jsonValue.getInt("bodyHeight"));
@@ -40,6 +43,8 @@ public class Enemy extends Entity {
         this.enemyAnimation = new EnemyAnimation(this);
         this.enemyScanZone = new EnemyScanZone(game.player, this, world);
         this.enemyAtkZone = new EnemyAtkZone(game.player, this, world);
+        this.onHitList = new HashMap<>();
+        this.onHitTime = 0f;
     }
 
     @Override
@@ -69,14 +74,34 @@ public class Enemy extends Entity {
         return name;
     }
 
+    public void beingHitted(){
+        Label onHit = new Label("99999", ResourceManager.skin, "title-white");
+        game.stage.addActor(onHit);
+        onHitList.put(onHit, new Vector3((float)body.getPosition().x, (float)body.getPosition().y, 0f));//x value for place X, y value for place Y, z for time being hitted.
+    }
+
     public void updateEnemyName(float dt){
         Vector3 pos = game.camera.project(new Vector3(body.getPosition().x, body.getPosition().y + (getHeight() / 2f) - ((height - bodyHeight) / 2f) / PPM, 0), 0, 0, V_WIDTH, V_HEIGHT);
         name.setPosition(pos.x - (name.getWidth() / 2f), pos.y);
     }
 
+    public void updateBeingHittedNumber(float dt){
+        float onHitPeriod = 2f;
+        for(HashMap.Entry<Label, Vector3> label : onHitList.entrySet()){
+            if(label.getKey() != null && label.getValue().z <= onHitPeriod * 100){
+                Vector3 pos = game.camera.project(new Vector3((float)label.getValue().x, label.getValue().y + (getHeight() / 2f) - ((height - bodyHeight) / 2f) / PPM, 0));
+                label.getKey().setPosition(pos.x, pos.y + label.getValue().z);
+                label.setValue(new Vector3(label.getValue().x, label.getValue().y, label.getValue().z + dt*100));
+            }else if(label.getKey() != null && label.getValue().z >= onHitPeriod * 100){
+                label.getKey().remove();
+            }
+        }
+    }
+
     @Override
     public void update(float dt) {
         updateEnemyName(dt);
+        updateBeingHittedNumber(dt);
         if(enemyAnimation.distanceToPlayer > 0){
             body.setLinearVelocity(new Vector2(1f, body.getLinearVelocity().y));
             enemyAnimation.isLookingToRight = true;

@@ -50,7 +50,7 @@ public class WorldContactListener implements ContactListener {
                     playerObject.body.applyLinearImpulse(new Vector2(5f, 0), playerObject.body.getWorldCenter(), true);
                 else
                     playerObject.body.applyLinearImpulse(new Vector2(-5f, 0), playerObject.body.getWorldCenter(), true);
-                playerObject.game.statusBar.hp -= 5;
+                playerObject.game.statusBar.hp -= 1;
             }
         }
     }
@@ -69,6 +69,7 @@ public class WorldContactListener implements ContactListener {
                 } else{
                     enemyObject.body.applyForceToCenter(new Vector2(100f, 50f), true);
                 }
+                enemyObject.beingHitted();
             }
         }
     }

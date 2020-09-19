@@ -48,7 +48,7 @@ public class PlayScreen implements Screen {
     private OrthogonalTiledMapRenderer orthogonalTiledMapRenderer;
     private TiledMap tiledMap;
 
-    private TouchPad touchPad;
+    public TouchPad touchPad;
     public StatusBar statusBar;
 
     public Player player;

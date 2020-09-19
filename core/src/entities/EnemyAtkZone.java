@@ -5,7 +5,6 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
-import com.badlogic.gdx.utils.JsonValue;
 
 import static constants.Constants.PPM;
 
@@ -116,4 +115,7 @@ public class EnemyAtkZone {
         if(bodyAttack != null) bodyAttack.setTransform(box2dAttackPosition, enemy.body.getPosition().y, 0);
     }
 
+    public Body getBody() {
+        return body;
+    }
 }

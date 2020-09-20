@@ -93,7 +93,7 @@ public class Enemy extends Entity {
         float onHitPeriod = 2f;
         for(HashMap.Entry<Label, Vector3> label : onHitList.entrySet()){
             if(label.getKey() != null && label.getValue().z <= onHitPeriod * 100){
-                Vector3 pos = game.camera.project(new Vector3((float)label.getValue().x, label.getValue().y + (getHeight() / 2f) - ((height - bodyHeight) / 2f) / PPM, 0));
+                Vector3 pos = game.camera.project(new Vector3((float)label.getValue().x, label.getValue().y + (getHeight() / 2f) - ((height - bodyHeight) / 2f) / PPM, 0), 0, 0, V_WIDTH, V_HEIGHT);
                 label.getKey().setPosition(pos.x, pos.y + label.getValue().z);
                 label.setValue(new Vector3(label.getValue().x, label.getValue().y, label.getValue().z + dt*100));
             }else if(label.getKey() != null && label.getValue().z >= onHitPeriod * 100){

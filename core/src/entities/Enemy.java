@@ -15,6 +15,7 @@ import java.util.HashMap;
 
 import constants.Constants;
 import entities.animations.EnemyAnimation;
+import hud.statusBar.EnemyStatusBar;
 import resource.ResourceManager;
 import screens.PlayScreen;
 
@@ -32,6 +33,7 @@ public class Enemy extends Entity {
     public JsonValue jsonValue;
     public HashMap<Label, Vector3> onHitList;
     public float onHitTime;
+    public EnemyStatusBar enemyStatusBar;
 
     public Enemy(PlayScreen game, World world, Vector2 position, JsonValue jsonValue) {
         super(world, jsonValue.getInt("width"), jsonValue.getInt("height"), jsonValue.getInt("bodyWidth"), jsonValue.getInt("bodyHeight"));
@@ -45,6 +47,7 @@ public class Enemy extends Entity {
         this.enemyAtkZone = new EnemyAtkZone(game.player, this, world);
         this.onHitList = new HashMap<>();
         this.onHitTime = 0f;
+        this.enemyStatusBar = new EnemyStatusBar(this);
     }
 
     @Override
@@ -76,8 +79,9 @@ public class Enemy extends Entity {
 
     public void beingHitted(){
         Label onHit = new Label("99999", ResourceManager.skin, "title-white");
-        game.stage.addActor(onHit);
         onHitList.put(onHit, new Vector3((float)body.getPosition().x, (float)body.getPosition().y, 0f));//x value for place X, y value for place Y, z for time being hitted.
+        game.stage.addActor(onHit);
+        enemyStatusBar.enemyHp -= 10;
     }
 
     public void updateEnemyName(float dt){
@@ -122,6 +126,18 @@ public class Enemy extends Entity {
     public void render(SpriteBatch sb, float dt) {
         update(dt);
         this.draw(sb);
+    }
+
+    public void remove(){//remove enemy with all animation, label,...
+        if (enemyAtkZone.getBodyAttack() != null) game.world.destroyBody(enemyAtkZone.getBodyAttack());
+        game.world.destroyBody(enemyAtkZone.getBody());
+        game.world.destroyBody(enemyScanZone.body);
+        game.world.destroyBody(body);
+        name.remove();
+        for (HashMap.Entry<Label, Vector3> label : onHitList.entrySet()) {
+            label.getKey().remove();
+        }
+        onHitList.clear();
     }
 
     @Override

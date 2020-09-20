@@ -42,7 +42,7 @@ public class PlayScreen implements Screen {
     public OrthographicCamera camera;
     private Viewport viewport;
 
-    private World world;
+    public World world;
     private Box2DDebugRenderer b2dr;
 
     private OrthogonalTiledMapRenderer orthogonalTiledMapRenderer;
@@ -52,7 +52,8 @@ public class PlayScreen implements Screen {
     public StatusBar statusBar;
 
     public Player player;
-    private Array<Enemy> enemyArray;
+    public Array<Enemy> enemyArray;
+    public Array<Enemy> enemiesToBeDestroy;
 
     public PlayScreen(GMO game, String map){
         this.game = game;
@@ -87,6 +88,7 @@ public class PlayScreen implements Screen {
             Enemy enemy = new Enemy(this, world, new Vector2(x / PPM,y / PPM), jsonValue);
             enemyArray.add(enemy);
         }
+        enemiesToBeDestroy = new Array<>();
 
         touchPad = new TouchPad(this);
         statusBar = new StatusBar(this, 100, 100);
@@ -106,13 +108,12 @@ public class PlayScreen implements Screen {
 
         game.batch.setProjectionMatrix(camera.combined);
         game.batch.begin();
-        for (Enemy enemy : enemyArray){
-            enemy.render(game.batch, delta);
-        }
+        renderEnemies(delta);
         player.render(game.batch, delta);
         game.batch.end();
-        update(delta);
+        renderEnemiesStatusBar(delta);
         statusBar.draw(game.batch, delta);
+        update(delta);
 
         stage.act(delta);
         stage.draw();
@@ -121,6 +122,28 @@ public class PlayScreen implements Screen {
     public void update(float dt){
         updateCamera(dt);
         updateMapView();
+    }
+
+    public void renderEnemies(float dt){
+        for (Enemy enemy : enemyArray){
+            enemy.render(game.batch, dt);
+        }
+    }
+
+    public void renderEnemiesStatusBar(float dt){
+        //render enemyHp
+        for (Enemy enemy : enemyArray){
+            enemy.enemyStatusBar.renderEnemyHp();
+            if(enemy.enemyStatusBar.enemyHp <= 0){
+                enemiesToBeDestroy.add(enemy);
+            }
+        }
+        //if enemyhp <= 0 then remove them from enemyArray and destroy from world.
+        for(Enemy enemy : enemiesToBeDestroy){
+            enemy.remove();
+            enemyArray.removeValue(enemy, true);
+        }
+        enemiesToBeDestroy.clear();
     }
 
     public void updateCamera(float dt){

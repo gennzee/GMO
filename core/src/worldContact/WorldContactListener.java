@@ -57,8 +57,8 @@ public class WorldContactListener implements ContactListener {
 
     public void interactiveBetweenSkillAndEnemy(Fixture a, Fixture b){
         if(a.getUserData() instanceof Skill || b.getUserData() instanceof Skill){
-            Fixture skill = a.getUserData() instanceof Player ? a : b;
-            Fixture enemy = skill == a.getUserData() ? b : a;
+            Fixture skill = a.getUserData() instanceof Skill ? a : b;
+            Fixture enemy = skill == a ? b : a;
             if(enemy.getUserData() instanceof Enemy){
                 System.out.println("hit");
                 Skill skillObject = (Skill) skill.getUserData();

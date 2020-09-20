@@ -118,4 +118,8 @@ public class EnemyAtkZone {
     public Body getBody() {
         return body;
     }
+
+    public Body getBodyAttack() {
+        return bodyAttack;
+    }
 }
